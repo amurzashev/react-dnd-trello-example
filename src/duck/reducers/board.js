@@ -1,6 +1,5 @@
 const initialState = {
   lanes: [
-    // col 1
     {
       id: 'list1',
       title: 'Planned Tasks',
@@ -15,7 +14,6 @@ const initialState = {
         },
       ]
     },
-    // col 2
     {
       id: 'list2',
       title: 'Unplanned Tasks',
