@@ -10,10 +10,12 @@ const Home  = props => {
   return (
     <Board>
       {board.lanes.map(li => (
-        <List key={li.id}>
-          <p>{li.title}</p>
-          {li.cards.map(card => <Card key={card.id}>{card.value}</Card>)}
-        </List>
+          <List key={li.id}>
+            <div style={{ height: 50, width: 50, background: li.bg }}>
+              hello
+            </div>
+            {li.cards.map(card => <Card key={card.id}>{card.value}</Card>)}
+          </List>
       ))}
     </Board>
   );

@@ -5,6 +5,9 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import store from './duck';
+import theme from './helpers/theme';
+import { ThemeProvider } from 'emotion-theming';
+import serialize from 'serialize-javascript';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -15,16 +18,19 @@ server
   .get('/*', (req, res) => {
     const context = {};
     const markup = renderToString(
-      <Provider store={store}>
-        <StaticRouter context={context} location={req.url}>
-          <App />
-        </StaticRouter>
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <StaticRouter context={context} location={req.url}>
+            <App />
+          </StaticRouter>
+        </Provider>
+      </ThemeProvider>
     );
 
     if (context.url) {
       res.redirect(context.url);
     } else {
+      const finalState = store.getState();
       res.status(200).send(
         `<!doctype html>
     <html lang="">
@@ -47,6 +53,9 @@ server
     <body>
         <div id="root">${markup}</div>
     </body>
+    <script>
+      window.__PRELOADED_STATE__ = ${serialize(finalState)}
+    </script>
 </html>`
       );
     }

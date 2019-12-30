@@ -3,6 +3,7 @@ const initialState = {
     {
       id: 'list1',
       title: 'Planned Tasks',
+      bg: '#78ED78',
       cards: [
         {
           id: 1,
@@ -17,6 +18,7 @@ const initialState = {
     {
       id: 'list2',
       title: 'Unplanned Tasks',
+      bg: '#211082',
       cards: [
         {
           id: 2,
