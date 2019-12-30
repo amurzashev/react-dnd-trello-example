@@ -7,7 +7,7 @@ const initialState = {
       cards: [
         {
           id: 1,
-          value: 'Wake up at 9AM',
+          value: 'Server side rendering in Emotion 10 has two approaches, each with their own trade-offs. The default approach works with streaming and requires no additional configuration, but does not work with nth child or similar selectors.',
         },
         {
           id: 2,
