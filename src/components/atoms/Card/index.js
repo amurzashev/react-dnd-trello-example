@@ -7,4 +7,8 @@ export default styled.div`
   color: ${props => props.theme.colors.text};
   cursor: pointer;
   user-select: none;
+  transition: 0.3s;
+  &:hover{
+    background: ${props => props.theme.colors.cardBgHover};
+  }
 `;
