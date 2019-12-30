@@ -5,7 +5,7 @@ export default styled.div`
     margin-top: 10px;
   }
   padding: 8px;
-  width: 320px;
+  width: 260px;
   &:not(:first-of-type) {
     margin-left: 10px;
   }

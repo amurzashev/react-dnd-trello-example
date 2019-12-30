@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Board from '../../organisms/Board';
 import List from '../../molecules/List';
 import Card from '../../atoms/Card';
+import Caption from '../../atoms/Caption';
 
 
 const Home  = props => {
@@ -11,10 +12,7 @@ const Home  = props => {
     <Board>
       {board.lanes.map(li => (
           <List key={li.id}>
-            <div style={{ height: 50, width: 50, background: li.bg }}>
-              hello
-            </div>
-            {li.cards.map(card => <Card key={card.id}>{card.value}</Card>)}
+            {li.cards.map(card => <Card key={card.id}><Caption>{card.value}</Caption></Card>)}
           </List>
       ))}
     </Board>
