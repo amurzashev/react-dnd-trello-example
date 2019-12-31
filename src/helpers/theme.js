@@ -8,3 +8,4 @@ theme.colors = {
 };
 
 export default theme;
+// #2f3437

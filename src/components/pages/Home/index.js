@@ -4,6 +4,7 @@ import Board from '../../organisms/Board';
 import List from '../../molecules/List';
 import Card from '../../atoms/Card';
 import Caption from '../../atoms/Caption';
+import Title from '../../atoms/Title';
 
 
 const Home  = props => {
@@ -12,7 +13,12 @@ const Home  = props => {
     <Board>
       {board.lanes.map(li => (
           <List key={li.id}>
-            {li.cards.map(card => <Card key={card.id}><Caption>{card.value}</Caption></Card>)}
+            <Title title={li.title} bg={li.bg} />
+            {li.cards.map(card => (
+              <Card key={card.id}>
+                <Caption size='s' color='text'>{card.value}</Caption>
+              </Card>
+            ))}
           </List>
       ))}
     </Board>
