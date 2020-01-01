@@ -26,6 +26,16 @@ const Home  = props => {
     return (
       <Lane key={lane.id}>
         <Title title={lane.title} bg={lane.bg} />
+        <CardWrap>
+          {lane.cards.map(card => (
+            <Card key={card.id}>
+              <Caption size='m' color='text'>{card.value}</Caption>
+            </Card>
+          ))}
+          <NewItem onClick={bindAddTodo}>
+            <Caption color='text' size='xs'>New</Caption>
+          </NewItem>
+        </CardWrap>
       </Lane>
     );
   });

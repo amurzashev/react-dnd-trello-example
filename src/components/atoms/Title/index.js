@@ -12,7 +12,7 @@ const Wrap = styled.div`
 
 export default ({ title, bg }) => (
   <Wrap bg={bg}>
-    <Caption size='xxs' color='text'>
+    <Caption size='xs' color='text'>
       {title}
     </Caption>
   </Wrap>

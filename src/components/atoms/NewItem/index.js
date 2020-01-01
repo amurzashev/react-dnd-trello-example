@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Card from '../Card';
-import Caption from '../Caption';
 
 const NewItem = styled(Card)`
   border: 0;
@@ -13,6 +12,6 @@ const NewItem = styled(Card)`
 
 export default ({ children, ...props }) => (
   <NewItem as='button' {...props}>
-    <Caption size='xs' color='text'>{children}</Caption>
+    {children}
   </NewItem>
 );
