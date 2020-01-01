@@ -7,7 +7,6 @@ import CardWrap from '../../molecules/CardWrap';
 import Card from '../../atoms/Card';
 import Caption from '../../atoms/Caption';
 import NewItem from '../../atoms/NewItem';
-import TextInput from '../../atoms/TextInput';
 import Title from '../../atoms/Title';
 import { addTodo } from '../../../duck/actions/todos';
 import { addLane } from '../../../duck/actions/lanes';
