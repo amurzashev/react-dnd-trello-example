@@ -1,3 +1,6 @@
-export const colorConfig = {
+import randomColor from 'randomcolor';
+
+export const generateRandomBG = () => randomColor({
   luminosity: 'dark',
-};
+});
+
