@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.27",
+    "@emotion/is-prop-valid": "^0.8.6",
     "@emotion/styled": "^10.0.27",
     "emotion-theming": "^10.0.27",
     "express": "^4.17.1",

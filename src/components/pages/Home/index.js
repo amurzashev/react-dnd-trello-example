@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Board from '../../organisms/Board';
 import List from '../../molecules/List';
+import CardWrap from '../../molecules/CardWrap';
 import Card from '../../atoms/Card';
 import Caption from '../../atoms/Caption';
 import Title from '../../atoms/Title';
@@ -20,11 +21,13 @@ const Home  = props => {
         {board.lanes.map(li => (
             <List key={li.id}>
               <Title title={li.title} bg={li.bg} />
-              {li.cards.map(card => (
-                <Card key={card.id}>
-                  <Caption size='s' color='text'>{card.value}</Caption>
-                </Card>
-              ))}
+              <CardWrap>
+                {li.cards.map(card => (
+                  <Card key={card.id}>
+                    <Caption size='s' color='text'>{card.value}</Caption>
+                  </Card>
+                ))}
+              </CardWrap>
             </List>
         ))}
       </Board>

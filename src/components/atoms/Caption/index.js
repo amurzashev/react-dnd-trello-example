@@ -1,3 +1,4 @@
+import isPropValid from '@emotion/is-prop-valid';
 import styled from '@emotion/styled';
 
 const getSize = props => {
@@ -17,7 +18,9 @@ const getSize = props => {
   }
 };
 
-export default styled.p`
+export default styled('p', {
+  shouldForwardProp: prop => isPropValid(prop) && prop !== 'color',
+})`
   font-size: ${props => props.size ? getSize(props) : '1.1rem'};
   color: ${props => props.color ? props.theme.colors[props.color] : 'initial'};
 `;
