@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Board from '../../organisms/Board';
-import List from '../../molecules/List';
+import Lane from '../../molecules/Lane';
 import CardWrap from '../../molecules/CardWrap';
 import Card from '../../atoms/Card';
 import Caption from '../../atoms/Caption';
@@ -17,22 +17,22 @@ const Home  = props => {
     console.log('end');
     console.log(result);
   };
+  const boardLanes = Object.keys(board.lanes);
+  if (!boardLanes.length) {
+    return null;
+  }
+  const lanes = boardLanes.map(k => {
+    const lane = board.lanes[k];
+    return (
+      <Lane key={lane.id}>
+        <Title title={lane.title} bg={lane.bg} />
+      </Lane>
+    );
+  });
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Board>
-        {board.lanes.map(li => (
-            <List key={li.id}>
-              <Title title={li.title} bg={li.bg} />
-              <CardWrap>
-                {li.cards.map(card => (
-                  <Card key={card.id}>
-                    <Caption size='s' color='text'>{card.value}</Caption>
-                  </Card>
-                ))}
-                <NewItem onClick={bindAddTodo}>New</NewItem>
-              </CardWrap>
-            </List>
-        ))}
+        {lanes}
       </Board>
     </DragDropContext>
   );

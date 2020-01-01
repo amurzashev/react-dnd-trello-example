@@ -1,6 +1,7 @@
 const initialState = {
-  lanes: [
-    {
+  // TODO: from array of objects to object with key[id]: val
+  lanes: {
+    list1: {
       id: 'list1',
       title: 'Planned Tasks',
       bg: '#78ED78',
@@ -19,7 +20,7 @@ const initialState = {
         },
       ]
     },
-    {
+    list2: {
       id: 'list2',
       title: 'Unplanned Tasks',
       bg: '#211082',
@@ -34,7 +35,7 @@ const initialState = {
         },
       ]
     }
-  ]
+  }
 };
 
 export default (state = initialState, action) => {
