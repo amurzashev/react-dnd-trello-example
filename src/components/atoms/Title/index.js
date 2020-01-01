@@ -16,4 +16,4 @@ export default ({ title, bg }) => (
       {title}
     </Caption>
   </Wrap>
-)
+);

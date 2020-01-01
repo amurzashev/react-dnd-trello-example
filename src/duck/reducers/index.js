@@ -1,5 +1,5 @@
 import board from './board';
 
-export {
+export default {
   board,
 };

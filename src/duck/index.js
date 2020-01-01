@@ -1,10 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import { board } from './reducers';
+import reducers from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const state = combineReducers({
-  board,
-});
+const state = combineReducers(reducers);
 
 const devTools = composeWithDevTools();
 
