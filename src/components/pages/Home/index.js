@@ -7,6 +7,7 @@ import CardWrap from '../../molecules/CardWrap';
 import Card from '../../atoms/Card';
 import Caption from '../../atoms/Caption';
 import NewItem from '../../atoms/NewItem';
+import TextInput from '../../atoms/TextInput';
 import Title from '../../atoms/Title';
 import { addTodo } from '../../../duck/actions/todos';
 import { addLane } from '../../../duck/actions/lanes';
@@ -28,9 +29,9 @@ const Home  = props => {
       <Lane key={lane.id}>
         <Title title={lane.title} bg={lane.bg} />
         <CardWrap>
-          {lane.cards.map(card => (
+          {lane.cards.map(card => ( /** TODO: onClick turn into input field */
             <Card key={card.id}>
-              <Caption size='m' color='text'>{card.value}</Caption>
+              <Caption size='m' color='text'>{card.value || 'Untitled'}</Caption>
             </Card>
           ))}
           <NewItem onClick={() => bindAddTodo(lane.id)}>

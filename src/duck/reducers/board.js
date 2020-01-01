@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
               ...state.lanes[action.id].cards,
               {
                 id: `${Math.random()}${Date.now()}`,
-                value: 'Untitled',
+                value: action.value,
               }
             ],
           }

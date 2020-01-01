@@ -5,6 +5,7 @@ export const addTodo = listId => (
     dispatch({
       type: LIST_ADD_TODO,
       id: listId,
+      value: '',
     })
   }
 );
