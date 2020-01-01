@@ -1,46 +1,35 @@
-import { LIST_ADD_TODO } from '../actions/types';
+import { LIST_ADD_TODO, BOARD_ADD_LANE } from '../actions/types';
+import randomColor from 'randomcolor';
+
+randomColor({
+  luminosity: 'dark',
+});
 
 const initialState = {
   lanes: {
-    list1: {
-      id: 'list1',
-      title: 'Planned Tasks',
-      bg: '#78ED78',
-      cards: [
-        {
-          id: 1,
-          value: 'Server side rendering in Emotion 10 has two approaches, each with their own trade-offs. The default approach works with streaming and requires no additional configuration, but does not work with nth child or similar selectors.',
-        },
-        {
-          id: 2,
-          value: 'Go to school at 10AM',
-        },
-        {
-          id: 3,
-          value: 'Do laundry at 5PM',
-        },
-      ]
+    lane1: {
+      id: 'lane1',
+      title: 'Untitled group',
+      bg: randomColor(),
+      cards: []
     },
-    list2: {
-      id: 'list2',
-      title: 'Unplanned Tasks',
-      bg: '#211082',
-      cards: [
-        {
-          id: 2,
-          value: 'Do homework',
-        },
-        {
-          id: 3,
-          value: 'Go for a walk',
-        },
-      ]
-    }
   }
 };
 
 export default (state = initialState, action) => {
   switch(action.type) {
+    case BOARD_ADD_LANE:
+      return {
+        lanes: {
+          ...state.lanes,
+          [action.id]: {
+            id: action.id,
+            title: 'Untitled Group',
+            bg: randomColor(),
+            cards: [],
+          }
+        }
+      }
     case LIST_ADD_TODO:
       return {
         lanes: {
@@ -51,7 +40,7 @@ export default (state = initialState, action) => {
               ...state.lanes[action.id].cards,
               {
                 id: `${Math.random()}${Date.now()}`,
-                value: 'Empty todo task',
+                value: 'Untitled',
               }
             ],
           }

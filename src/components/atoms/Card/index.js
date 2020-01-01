@@ -6,6 +6,7 @@ export default styled.div`
   background: ${props => props.theme.colors.cardBg};
   color: ${props => props.theme.colors.text};
   cursor: pointer;
+  min-height: 37px;
   user-select: none;
   transition: 0.3s;
   &:hover{

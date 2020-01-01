@@ -9,10 +9,11 @@ import Caption from '../../atoms/Caption';
 import NewItem from '../../atoms/NewItem';
 import Title from '../../atoms/Title';
 import { addTodo } from '../../../duck/actions/todos';
+import { addLane } from '../../../duck/actions/lanes';
 
 
 const Home  = props => {
-  const { board, bindAddTodo } = props;
+  const { board, bindAddTodo, bindAddLane } = props;
   const onDragEnd = result => {
     console.log('end');
     console.log(result);
@@ -43,6 +44,11 @@ const Home  = props => {
     <DragDropContext onDragEnd={onDragEnd}>
       <Board>
         {lanes}
+        <Lane>
+          <NewItem onClick={bindAddLane}>
+            <Caption color='text' size='xs'>Add a Group</Caption>
+          </NewItem>
+        </Lane>
       </Board>
     </DragDropContext>
   );
@@ -51,5 +57,6 @@ const Home  = props => {
 const mapStateToProps = state => state;
 const mapDispatchToProps = {
   bindAddTodo: addTodo,
+  bindAddLane: addLane,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
