@@ -32,7 +32,7 @@ const Home  = props => {
               <Caption size='m' color='text'>{card.value}</Caption>
             </Card>
           ))}
-          <NewItem onClick={bindAddTodo}>
+          <NewItem onClick={() => bindAddTodo(lane.id)}>
             <Caption color='text' size='xs'>New</Caption>
           </NewItem>
         </CardWrap>

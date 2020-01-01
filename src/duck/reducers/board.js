@@ -1,5 +1,6 @@
+import { LIST_ADD_TODO } from '../actions/types';
+
 const initialState = {
-  // TODO: from array of objects to object with key[id]: val
   lanes: {
     list1: {
       id: 'list1',
@@ -40,6 +41,22 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch(action.type) {
+    case LIST_ADD_TODO:
+      return {
+        lanes: {
+          ...state.lanes,
+          [action.id]: {
+            ...state.lanes[action.id],
+            cards: [
+              ...state.lanes[action.id].cards,
+              {
+                id: `${Math.random()}${Date.now()}`,
+                value: 'Empty todo task',
+              }
+            ],
+          }
+        }
+      }
     default:
       return state;
   };

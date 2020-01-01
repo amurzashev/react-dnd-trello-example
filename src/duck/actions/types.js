@@ -1,1 +1,1 @@
-export const ADD_TODO = 'ADD_TODO';
+export const LIST_ADD_TODO = 'LIST_ADD_TODO';

@@ -1,5 +1,10 @@
-export const addTodo = todo => (
+import { LIST_ADD_TODO } from './types';
+
+export const addTodo = listId => (
    dispatch => {
-    alert('yay')
+    dispatch({
+      type: LIST_ADD_TODO,
+      id: listId,
+    })
   }
 );
