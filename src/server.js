@@ -3,6 +3,7 @@ import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
+import { resetServerContext } from 'react-beautiful-dnd';
 import { Provider } from 'react-redux';
 import store from './duck';
 import theme from './helpers/theme';
@@ -17,6 +18,7 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const context = {};
+    resetServerContext();
     const markup = renderToString(
       <ThemeProvider theme={theme}>
         <Provider store={store}>
