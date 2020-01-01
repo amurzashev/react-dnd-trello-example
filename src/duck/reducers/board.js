@@ -1,16 +1,13 @@
 import { LIST_ADD_TODO, BOARD_ADD_LANE } from '../actions/types';
 import randomColor from 'randomcolor';
-
-randomColor({
-  luminosity: 'dark',
-});
+import { colorConfig } from '../../helpers/configs';
 
 const initialState = {
   lanes: {
     lane1: {
       id: 'lane1',
       title: 'Untitled group',
-      bg: randomColor(),
+      bg: randomColor(colorConfig),
       cards: []
     },
   }
@@ -25,7 +22,7 @@ export default (state = initialState, action) => {
           [action.id]: {
             id: action.id,
             title: 'Untitled Group',
-            bg: randomColor(),
+            bg: randomColor(colorConfig),
             cards: [],
           }
         }
