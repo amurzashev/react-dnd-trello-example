@@ -6,11 +6,13 @@ import List from '../../molecules/List';
 import CardWrap from '../../molecules/CardWrap';
 import Card from '../../atoms/Card';
 import Caption from '../../atoms/Caption';
+import NewItem from '../../atoms/NewItem';
 import Title from '../../atoms/Title';
+import { addTodo } from '../../../duck/actions/todos';
 
 
 const Home  = props => {
-  const { board } = props;
+  const { board, bindAddTodo } = props;
   const onDragEnd = result => {
     console.log('end');
     console.log(result);
@@ -27,6 +29,7 @@ const Home  = props => {
                     <Caption size='s' color='text'>{card.value}</Caption>
                   </Card>
                 ))}
+                <NewItem onClick={bindAddTodo}>New</NewItem>
               </CardWrap>
             </List>
         ))}
@@ -36,4 +39,7 @@ const Home  = props => {
 };
 
 const mapStateToProps = state => state;
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = {
+  bindAddTodo: addTodo,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

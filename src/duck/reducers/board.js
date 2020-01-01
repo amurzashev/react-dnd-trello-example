@@ -13,6 +13,10 @@ const initialState = {
           id: 2,
           value: 'Go to school at 10AM',
         },
+        {
+          id: 3,
+          value: 'Do laundry at 5PM',
+        },
       ]
     },
     {
