@@ -5,7 +5,7 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import { resetServerContext } from 'react-beautiful-dnd';
 import { Provider } from 'react-redux';
-import store from './duck';
+import configureStore from './duck';
 import theme from './helpers/theme';
 import { ThemeProvider } from 'emotion-theming';
 import serialize from 'serialize-javascript';
@@ -19,6 +19,7 @@ server
   .get('/*', (req, res) => {
     const context = {};
     resetServerContext();
+    const store = configureStore({});
     const markup = renderToString(
       <ThemeProvider theme={theme}>
         <Provider store={store}>

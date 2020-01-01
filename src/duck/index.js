@@ -7,4 +7,6 @@ const state = combineReducers(reducers);
 
 const devTools = composeWithDevTools(applyMiddleware(thunk));
 
-export default createStore(state, devTools);
+const configureStore = preloadedState => createStore(state, preloadedState, devTools);
+
+export default configureStore;

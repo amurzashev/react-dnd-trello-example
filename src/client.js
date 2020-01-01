@@ -3,11 +3,13 @@ import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './duck';
+import configureStore from './duck';
 import theme from './helpers/theme';
 import { ThemeProvider } from 'emotion-theming';
 
 // TODO: preload store from window.__PRELOADED_STATE__
+
+const store = configureStore(window.__PRELOADED_STATE__);
 hydrate(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
