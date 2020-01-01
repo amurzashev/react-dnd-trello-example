@@ -1,4 +1,4 @@
-import { LIST_ADD_TODO, BOARD_ADD_LANE } from '../actions/types';
+import { LIST_ADD_TODO, BOARD_ADD_LANE, LIST_EDIT_TODO } from '../actions/types';
 import { generateRandomBG } from '../../helpers/configs';
 
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
       id: 'lane1',
       title: 'Untitled group',
       bg: generateRandomBG(),
-      cards: []
+      cards: {}
     },
   }
 };
@@ -22,7 +22,23 @@ export default (state = initialState, action) => {
             id: action.id,
             title: 'Untitled Group',
             bg: generateRandomBG(),
-            cards: [],
+            cards: {},
+          }
+        }
+      }
+    case LIST_EDIT_TODO:
+      return {
+        lanes: {
+          ...state.lanes,
+          [action.laneId]: {
+            ...state.lanes[action.laneId],
+            cards: {
+              ...state.lanes[action.laneId].cards,
+              [action.cardId]: {
+                id: action.cardId,
+                value: action.value,
+              },
+            }
           }
         }
       }
@@ -32,13 +48,13 @@ export default (state = initialState, action) => {
           ...state.lanes,
           [action.id]: {
             ...state.lanes[action.id],
-            cards: [
+            cards: {
               ...state.lanes[action.id].cards,
-              {
-                id: `${Math.random()}${Date.now()}`,
+              [action.todoId]: {
+                id: action.todoId,
                 value: action.value,
               }
-            ],
+            }
           }
         }
       }

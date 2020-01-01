@@ -1,19 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
-import Board from '../../organisms/Board';
-import Lane from '../../molecules/Lane';
-import CardWrap from '../../molecules/CardWrap';
-import Card from '../../atoms/Card';
-import Caption from '../../atoms/Caption';
-import NewItem from '../../atoms/NewItem';
-import Title from '../../atoms/Title';
-import { addTodo } from '../../../duck/actions/todos';
-import { addLane } from '../../../duck/actions/lanes';
+import Board from 'components/organisms/Board';
+import Lane from 'components/molecules/Lane';
+import CardWrap from 'components/molecules/CardWrap';
+import Card from 'components/atoms/Card';
+import Caption from 'components/atoms/Caption';
+import NewItem from 'components/atoms/NewItem';
+import Title from 'components/atoms/Title';
+import TextInput from 'components/atoms/TextInput';
+import { addTodo, editTodo } from 'duck/actions/todos';
+import { addLane } from 'duck/actions/lanes';
 
+// TODO: CLEAN UP
+
+const CardComponent = ({ card, bindEditTodo, lane }) => {
+  const [isEditing, setIsEditing] = useState(true);
+  const preCheckEdit = e => {
+    if (e.target.value && e.target.value !== card.value && e.target.value.trim().length) {
+      bindEditTodo(lane.id, card.id, e.target.value);
+    }
+    setIsEditing(!isEditing);
+  };
+  return (
+    <Card>
+      {isEditing ? <TextInput style={{ paddingBottom: 2 }} autoFocus onBlur={e => preCheckEdit(e)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
+    </Card>
+  )
+};
+
+const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
+  const cardItems = Object.keys(lane.cards);
+  return (
+    <CardWrap>
+      {cardItems.map(k => {
+        const card = lane.cards[k];
+        return (
+          <CardComponent card={card} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
+        );
+      })}
+      <NewItem onClick={() => bindAddTodo(lane.id)}>
+        <Caption color='text' size='xs'>New</Caption>
+      </NewItem>
+    </CardWrap>
+  );
+}
 
 const Home  = props => {
-  const { board, bindAddTodo, bindAddLane } = props;
+  const { board, bindAddTodo, bindAddLane, bindEditTodo } = props;
   const onDragEnd = result => {
     console.log('end');
     console.log(result);
@@ -27,16 +61,7 @@ const Home  = props => {
     return (
       <Lane key={lane.id}>
         <Title title={lane.title} bg={lane.bg} />
-        <CardWrap>
-          {lane.cards.map(card => ( /** TODO: onClick turn into input field */
-            <Card key={card.id}>
-              <Caption size='m' color='text'>{card.value || 'Untitled'}</Caption>
-            </Card>
-          ))}
-          <NewItem onClick={() => bindAddTodo(lane.id)}>
-            <Caption color='text' size='xs'>New</Caption>
-          </NewItem>
-        </CardWrap>
+        <CardWrapComponent lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
       </Lane>
     );
   });
@@ -57,6 +82,7 @@ const Home  = props => {
 const mapStateToProps = state => state;
 const mapDispatchToProps = {
   bindAddTodo: addTodo,
+  bindEditTodo: editTodo,
   bindAddLane: addLane,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

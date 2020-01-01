@@ -4,7 +4,7 @@ export const addLane = () => (
   dispatch => {
     dispatch({
       type: BOARD_ADD_LANE,
-      id: `Lane${Math.random()}${Date.now()}`,
+      id: `lane${Math.random()}${Date.now()}`,
     });
   }
 )
