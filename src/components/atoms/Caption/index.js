@@ -10,7 +10,7 @@ const getSize = props => {
     case 's':
       return '0.95rem';
     case 'm':
-      return '1.1rem';
+      return '1rem';
     case 'l':
       return '1.4rem';
     default:
