@@ -50,7 +50,7 @@ const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
     </CardWrap>
   );
 }
-
+// TODO: onEnter listener or form?? fix styling too long string!
 const TitleComponent = ({ lane, bindEditLane }) => {
   const [isEditing, setIsEditing] = useState(false);
   const preCheckEdit = val => {
