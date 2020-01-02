@@ -16,15 +16,19 @@ import { addLane } from 'duck/actions/lanes';
 
 const CardComponent = ({ card, bindEditTodo, lane }) => {
   const [isEditing, setIsEditing] = useState(true);
-  const preCheckEdit = e => {
-    if (e.target.value && e.target.value !== card.value && e.target.value.trim().length) {
-      bindEditTodo(lane.id, card.id, e.target.value);
+  const preCheckEdit = val => {
+    if (val && val !== card.value && val.trim().length) {
+      bindEditTodo(lane.id, card.id, val);
     }
     setIsEditing(!isEditing);
   };
+  const submitForm = e => {
+    e.preventDefault();
+    return preCheckEdit(e.target[0].value);
+  }
   return (
     <Card>
-      {isEditing ? <TextInput style={{ paddingBottom: 2 }} autoFocus onBlur={e => preCheckEdit(e)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
+      {isEditing ? <form onSubmit={submitForm}><TextInput style={{ paddingBottom: 2 }} autoFocus onBlur={e => preCheckEdit(e.target.value)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /></form> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
     </Card>
   )
 };
