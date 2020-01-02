@@ -1,4 +1,4 @@
-import { LIST_ADD_TODO, BOARD_ADD_LANE, LIST_EDIT_TODO } from '../actions/types';
+import { LIST_ADD_TODO, BOARD_ADD_LANE, LIST_EDIT_TODO, BOARD_EDIT_LANE } from '../actions/types';
 import { generateRandomBG } from '../../helpers/configs';
 
 const initialState = {
@@ -23,6 +23,16 @@ export default (state = initialState, action) => {
             title: 'Untitled Group',
             bg: generateRandomBG(),
             cards: {},
+          }
+        }
+      };
+    case BOARD_EDIT_LANE:
+      return {
+        lanes: {
+          ...state.lanes,
+          [action.id]: {
+            ...state.lanes[action.id],
+            title: action.title,
           }
         }
       }

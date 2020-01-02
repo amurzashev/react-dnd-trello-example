@@ -10,8 +10,8 @@ const Wrap = styled.div`
   cursor: pointer;
 `;
 
-export default ({ title, bg }) => (
-  <Wrap bg={bg}>
+export default ({ title, bg, ...props }) => (
+  <Wrap bg={bg} {...props}>
     <Caption size='xs' color='text'>
       {title}
     </Caption>

@@ -7,6 +7,7 @@ import CardWrap from 'components/molecules/CardWrap';
 import Card from 'components/atoms/Card';
 import Caption from 'components/atoms/Caption';
 import NewItem from 'components/atoms/NewItem';
+import TitleInput from 'components/atoms/TitleInput';
 import Title from 'components/atoms/Title';
 import TextInput from 'components/atoms/TextInput';
 import { addTodo, editTodo } from 'duck/actions/todos';
@@ -50,6 +51,11 @@ const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
   );
 }
 
+const TitleComponent = ({ lane }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  return isEditing ? <div><TitleInput defaultValue={lane.title} autoFocus onBlur={() => setIsEditing(!isEditing)} /></div> : <Title onClick={() => setIsEditing(!isEditing)} title={lane.title} bg={lane.bg} />;
+};
+
 const Home  = props => {
   const { board, bindAddTodo, bindAddLane, bindEditTodo } = props;
   const onDragEnd = result => {
@@ -64,7 +70,7 @@ const Home  = props => {
     const lane = board.lanes[k];
     return (
       <Lane key={lane.id}>
-        <Title title={lane.title} bg={lane.bg} />
+        <TitleComponent lane={lane} />
         <CardWrapComponent lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
       </Lane>
     );
