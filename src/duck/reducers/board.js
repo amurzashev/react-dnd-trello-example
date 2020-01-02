@@ -5,7 +5,7 @@ const initialState = {
   lanes: {
     lane1: {
       id: 'lane1',
-      title: 'Untitled group',
+      title: 'Untitled Group',
       bg: generateRandomBG(),
       cards: {}
     },

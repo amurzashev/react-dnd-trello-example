@@ -11,7 +11,7 @@ import TitleInput from 'components/atoms/TitleInput';
 import Title from 'components/atoms/Title';
 import TextInput from 'components/atoms/TextInput';
 import { addTodo, editTodo } from 'duck/actions/todos';
-import { addLane } from 'duck/actions/lanes';
+import { addLane, editLane } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
 
@@ -51,13 +51,19 @@ const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
   );
 }
 
-const TitleComponent = ({ lane }) => {
+const TitleComponent = ({ lane, bindEditLane }) => {
   const [isEditing, setIsEditing] = useState(false);
-  return isEditing ? <div><TitleInput defaultValue={lane.title} autoFocus onBlur={() => setIsEditing(!isEditing)} /></div> : <Title onClick={() => setIsEditing(!isEditing)} title={lane.title} bg={lane.bg} />;
+  const preCheckEdit = val => {
+    if (val && val !== lane.title) {
+      bindEditLane(lane.id, val);
+    }
+    setIsEditing(!isEditing);
+  };
+  return isEditing ? <div><TitleInput defaultValue={lane.title} autoFocus onBlur={e => preCheckEdit(e.target.value)} /></div> : <Title onClick={() => setIsEditing(!isEditing)} title={lane.title} bg={lane.bg} />;
 };
 
 const Home  = props => {
-  const { board, bindAddTodo, bindAddLane, bindEditTodo } = props;
+  const { board, bindAddTodo, bindAddLane, bindEditTodo, bindEditLane } = props;
   const onDragEnd = result => {
     console.log('end');
     console.log(result);
@@ -70,7 +76,7 @@ const Home  = props => {
     const lane = board.lanes[k];
     return (
       <Lane key={lane.id}>
-        <TitleComponent lane={lane} />
+        <TitleComponent lane={lane} bindEditLane={bindEditLane} />
         <CardWrapComponent lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
       </Lane>
     );
@@ -94,5 +100,6 @@ const mapDispatchToProps = {
   bindAddTodo: addTodo,
   bindEditTodo: editTodo,
   bindAddLane: addLane,
+  bindEditLane: editLane,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
