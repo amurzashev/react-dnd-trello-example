@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Board from 'components/organisms/Board';
 import Lane from 'components/molecules/Lane';
 import CardWrap from 'components/molecules/CardWrap';
@@ -15,7 +15,7 @@ import { addLane, editLane } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
 
-const CardComponent = ({ card, bindEditTodo, lane }) => {
+const CardComponent = ({ card, bindEditTodo, lane, index }) => {
   const [isEditing, setIsEditing] = useState(true);
   const preCheckEdit = val => {
     if (val && val !== card.value && val.trim().length) {
@@ -28,9 +28,17 @@ const CardComponent = ({ card, bindEditTodo, lane }) => {
     return preCheckEdit(e.target[0].value);
   }
   return (
-    <Card>
-      {isEditing ? <form onSubmit={submitForm}><TextInput style={{ paddingBottom: 2 }} autoFocus onBlur={e => preCheckEdit(e.target.value)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /></form> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
-    </Card>
+    <Draggable draggableId={card.id} index={index}>
+      {provided => (
+        <Card
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          {isEditing ? <form onSubmit={submitForm}><TextInput style={{ paddingBottom: 2 }} autoFocus onBlur={e => preCheckEdit(e.target.value)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /></form> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
+        </Card>
+      )}
+    </Draggable>
   )
 };
 
@@ -38,10 +46,10 @@ const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
   const cardItems = Object.keys(lane.cards);
   return (
     <CardWrap>
-      {cardItems.map(k => {
+      {cardItems.map((k, index) => {
         const card = lane.cards[k];
         return (
-          <CardComponent card={card} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
+          <CardComponent card={card} index={index} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
         );
       })}
       <NewItem onClick={() => bindAddTodo(lane.id)}>
@@ -75,10 +83,18 @@ const Home  = props => {
   const lanes = boardLanes.map(k => {
     const lane = board.lanes[k];
     return (
-      <Lane key={lane.id}>
-        <TitleComponent lane={lane} bindEditLane={bindEditLane} />
-        <CardWrapComponent lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
-      </Lane>
+      <Droppable droppableId={lane.id} key={lane.id}>
+        {(provided) => (
+          <Lane
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <TitleComponent lane={lane} bindEditLane={bindEditLane} />
+            <CardWrapComponent lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
+            {provided.placeholder}
+          </Lane>
+        )}
+      </Droppable>
     );
   });
   return (
