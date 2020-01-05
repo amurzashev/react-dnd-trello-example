@@ -15,11 +15,11 @@ import { addLane, editLane } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
 
-const CardComponent = ({ card, bindEditTodo, lane, index }) => {
+const CardComponent = ({ laneIndex, cardIndex, card, bindEditTodo, lane }) => {
   const [isEditing, setIsEditing] = useState(true);
   const preCheckEdit = val => {
     if (val && val !== card.value && val.trim().length) {
-      bindEditTodo(lane.id, card.id, val);
+      bindEditTodo(laneIndex, cardIndex, val);
     }
     setIsEditing(!isEditing);
   };
@@ -28,7 +28,7 @@ const CardComponent = ({ card, bindEditTodo, lane, index }) => {
     return preCheckEdit(e.target[0].value);
   };
   return (
-    <Draggable draggableId={card.id} index={index}>
+    <Draggable draggableId={card.id} index={cardIndex}>
       {(provided, snapshot) => (
         <Card
           {...provided.draggableProps}
@@ -49,9 +49,9 @@ const CardWrapComponent = ({ lane, laneIndex, bindAddTodo, bindEditTodo }) => {
       <NewItem onClick={() => bindAddTodo(laneIndex)}>
         <Caption color='text' size='xs'>New</Caption>
       </NewItem>
-      {lane.cards.map((card, index) => {
+      {lane.cards.map((card, cardIndex) => {
         return (
-          <CardComponent card={card} index={index} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
+          <CardComponent card={card} laneIndex={laneIndex} cardIndex={cardIndex} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
         );
       })}
     </CardWrap>

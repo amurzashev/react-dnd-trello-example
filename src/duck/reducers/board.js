@@ -38,19 +38,16 @@ export default (state = initialState, action) => {
       }
     case LIST_EDIT_TODO:
       return {
-        lanes: {
-          ...state.lanes,
-          [action.laneId]: {
+        lanes: [
+          ...state.lanes.slice(0, action.laneId),
+          {
             ...state.lanes[action.laneId],
-            cards: {
-              ...state.lanes[action.laneId].cards,
-              [action.cardId]: {
-                id: action.cardId,
-                value: action.value,
-              },
-            }
-          }
-        }
+            cards: [
+              ...action.cards,
+            ],
+          },
+          ...state.lanes.slice(action.laneId + 1),
+        ]
       }
     case LIST_ADD_TODO:
       return {

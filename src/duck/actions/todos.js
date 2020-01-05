@@ -22,12 +22,16 @@ export const addTodo = laneIndex => (
 );
 
 export const editTodo = (laneId, cardId, value) => (
-  dispatch => {
+  (dispatch, getState) => {
+    const { board }  = getState();
+    const { cards } = board.lanes[laneId];
+    cards[cardId].value = value;
+
+
     dispatch({
       type: LIST_EDIT_TODO,
       laneId,
-      cardId,
-      value,
+      cards,
     });
   }
 );
