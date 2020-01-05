@@ -1,4 +1,4 @@
-export const LIST_ADD_CARD = 'LIST_ADD_CARD';
+export const CARDS_ADD_CARD = 'CARDS_ADD_CARD';
 export const LIST_EDIT_CARD = 'LIST_EDIT_CARD';
 export const LIST_REORDER_CARD = 'LIST_REORDER_CARD';
 

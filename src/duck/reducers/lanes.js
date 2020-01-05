@@ -1,9 +1,9 @@
-import { LANE_ADD_CARD } from '../actions/types';
+import { LANE_ADD_CARD, BOARD_ADD_LANE } from '../actions/types';
 import { generateRandomBG } from '../../helpers/configs';
 
 const initialState = {
-  lane1: {
-    id: 'lane1',
+  lane0: {
+    id: 'lane0',
     title: '',
     bg: generateRandomBG(),
     cards: [],
@@ -23,6 +23,16 @@ export default (state = initialState, action) => {
           ]
         }
       };
+    case BOARD_ADD_LANE:
+      return {
+        ...state,
+        [action.id]: {
+          id: action.id,
+          title: '',
+          bg: generateRandomBG(),
+          cards: [],
+        }
+      }
     default:
       return state;
   }
