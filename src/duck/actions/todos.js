@@ -1,13 +1,23 @@
 import { LIST_ADD_TODO, LIST_EDIT_TODO, LIST_REORDER_TODO } from './types';
 
-export const addTodo = laneId => (
-   dispatch => {
+export const addTodo = laneIndex => (
+   (dispatch, getState) => {
+    const { board } = getState();
+
+    const newLane = board.lanes[laneIndex];
+    newLane.cards = [
+      ...newLane.cards,
+      {
+        id: `todo${board.lanes[laneIndex].cards.length}`,
+        value: '',
+      },
+    ];
+  
     dispatch({
       type: LIST_ADD_TODO,
-      id: laneId,
-      todoId: `todo${Math.random()}${Date.now()}`,
-      value: '',
-    })
+      laneIndex,
+      newLane,
+    });
   }
 );
 

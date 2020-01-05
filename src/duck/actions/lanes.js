@@ -1,10 +1,12 @@
 import { BOARD_ADD_LANE, BOARD_EDIT_LANE } from './types';
 
 export const addLane = () => (
-  dispatch => {
+  (dispatch, getState) => {
+    const { board } = getState();
+    const id = board.lanes.length;
     dispatch({
       type: BOARD_ADD_LANE,
-      id: `lane${Math.random()}${Date.now()}`,
+      id: `lane${id}`,
     });
   }
 );

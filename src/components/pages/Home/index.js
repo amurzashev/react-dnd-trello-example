@@ -26,7 +26,7 @@ const CardComponent = ({ card, bindEditTodo, lane, index }) => {
   const submitForm = e => {
     e.preventDefault();
     return preCheckEdit(e.target[0].value);
-  }
+  };
   return (
     <Draggable draggableId={card.id} index={index}>
       {(provided, snapshot) => (
@@ -43,11 +43,10 @@ const CardComponent = ({ card, bindEditTodo, lane, index }) => {
   )
 };
 
-const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
-  console.log(lane)
+const CardWrapComponent = ({ lane, laneIndex, bindAddTodo, bindEditTodo }) => {
   return (
     <CardWrap>
-      <NewItem onClick={() => bindAddTodo(lane.id)}>
+      <NewItem onClick={() => bindAddTodo(laneIndex)}>
         <Caption color='text' size='xs'>New</Caption>
       </NewItem>
       {lane.cards.map((card, index) => {
@@ -85,8 +84,6 @@ const Home  = props => {
     }
 
     const lane = board.lanes[source.droppableId];
-    console.log(lane);
-    console.log(draggableId);
     const newCardIds = Array.from(lane.cards);
 
     newCardIds.splice(source.index, 1);
@@ -103,7 +100,7 @@ const Home  = props => {
   if (!board.lanes.length) {
     return null;
   }
-  const lanes = board.lanes.map(lane => {
+  const lanes = board.lanes.map((lane, index) => {
     return (
       <Droppable droppableId={lane.id} key={lane.id}>
         {(provided) => (
@@ -112,7 +109,7 @@ const Home  = props => {
             {...provided.droppableProps}
           >
             <TitleComponent lane={lane} bindEditLane={bindEditLane} />
-            <CardWrapComponent lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
+            <CardWrapComponent laneIndex={index} lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
             {provided.placeholder}
           </Lane>
         )}

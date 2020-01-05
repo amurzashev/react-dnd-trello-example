@@ -4,7 +4,7 @@ import { generateRandomBG } from '../../helpers/configs';
 const initialState = {
   lanes: [
     {
-      id: 'lane1',
+      id: 'lane0',
       title: 'Untitled Group',
       bg: generateRandomBG(),
       cards: [],
@@ -54,19 +54,11 @@ export default (state = initialState, action) => {
       }
     case LIST_ADD_TODO:
       return {
-        lanes: {
-          ...state.lanes,
-          [action.id]: {
-            ...state.lanes[action.id],
-            cards: [
-              ...state.lanes[action.id].cards,
-              {
-                id: action.todoId,
-                value: action.value,
-              }
-            ]
-          }
-        }
+        lanes: [
+          ...state.lanes.slice(0, action.laneIndex),
+          action.newLane,
+          ...state.lanes.slice(action.laneIndex + 1),
+        ],
       }
     default:
       return state;
