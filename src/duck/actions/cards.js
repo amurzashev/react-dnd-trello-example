@@ -1,4 +1,4 @@
-import { CARDS_ADD_CARD, LANE_ADD_CARD } from './types';
+import { CARDS_ADD_CARD, CARDS_EDIT_CARD, LANE_ADD_CARD } from './types';
 
 export const addCard = laneId => (
    (dispatch, getState) => {
@@ -15,3 +15,13 @@ export const addCard = laneId => (
     })
   }
 );
+
+export const editCard = (id, value) => (
+  disptach => {
+    disptach({
+      type: CARDS_EDIT_CARD,
+      id,
+      value,
+    })
+  }
+)

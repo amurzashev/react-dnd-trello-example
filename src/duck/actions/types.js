@@ -1,5 +1,5 @@
 export const CARDS_ADD_CARD = 'CARDS_ADD_CARD';
-export const LIST_EDIT_CARD = 'LIST_EDIT_CARD';
+export const CARDS_EDIT_CARD = 'CARDS_EDIT_CARD';
 export const LIST_REORDER_CARD = 'LIST_REORDER_CARD';
 
 export const LANE_ADD_CARD = 'LANE_ADD_CARD';

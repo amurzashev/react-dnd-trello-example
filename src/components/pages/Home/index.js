@@ -10,16 +10,16 @@ import NewItem from 'components/atoms/NewItem';
 import TitleInput from 'components/atoms/TitleInput';
 import Title from 'components/atoms/Title';
 import TextInput from 'components/atoms/TextInput';
-import { addCard } from 'duck/actions/cards';
+import { addCard, editCard } from 'duck/actions/cards';
 import { addLane, editLane } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
 
-const CardComponent = ({ laneIndex, cardIndex, card, bindEditTodo, lane }) => {
+const CardComponent = ({ laneIndex, cardIndex, card, bindEditCard, lane }) => {
   const [isEditing, setIsEditing] = useState(true);
   const preCheckEdit = val => {
     if (val && val !== card.value && val.trim().length) {
-      bindEditTodo(laneIndex, cardIndex, val);
+      bindEditCard(card.id, val);
     }
     setIsEditing(!isEditing);
   };
@@ -43,7 +43,7 @@ const CardComponent = ({ laneIndex, cardIndex, card, bindEditTodo, lane }) => {
   )
 };
 
-const CardWrapComponent = ({ cards, lane, laneIndex, bindAddCard, bindEditTodo }) => {
+const CardWrapComponent = ({ cards, lane, laneIndex, bindAddCard, bindEditCard }) => {
   return (
     <CardWrap>
       <NewItem onClick={() => bindAddCard(lane.id)}>
@@ -52,7 +52,7 @@ const CardWrapComponent = ({ cards, lane, laneIndex, bindAddCard, bindEditTodo }
       {lane.cards.map((k, cardIndex) => {
         const card = cards[k];
         return (
-          <CardComponent card={card} laneIndex={laneIndex} cardIndex={cardIndex} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
+          <CardComponent card={card} laneIndex={laneIndex} cardIndex={cardIndex} key={card.id} bindEditCard={bindEditCard} lane={lane} />
         );
       })}
     </CardWrap>
@@ -71,7 +71,7 @@ const TitleComponent = ({ lane, bindEditLane }) => {
 };
 
 const Home  = props => {
-  const { lanes, cards, bindAddCard, bindAddLane, bindEditLane } = props;
+  const { lanes, cards, bindAddCard, bindEditCard, bindAddLane, bindEditLane } = props;
   const onDragEnd = result => {
     console.log(result);
     const { destination, source, draggableId } = result;
@@ -115,7 +115,7 @@ const Home  = props => {
             {...provided.droppableProps}
           >
             <TitleComponent lane={lane} bindEditLane={bindEditLane} />
-            <CardWrapComponent cards={cards} laneIndex={index} lane={lane} bindAddCard={bindAddCard} />
+            <CardWrapComponent cards={cards} laneIndex={index} lane={lane} bindAddCard={bindAddCard} bindEditCard={bindEditCard} />
             {provided.placeholder}
           </Lane>
         )}
@@ -139,6 +139,7 @@ const Home  = props => {
 const mapStateToProps = state => state;
 const mapDispatchToProps = {
   bindAddCard: addCard,
+  bindEditCard: editCard,
   bindAddLane: addLane,
   bindEditLane: editLane,
 };
