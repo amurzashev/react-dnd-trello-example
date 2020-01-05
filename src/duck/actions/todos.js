@@ -1,4 +1,4 @@
-import { LIST_ADD_TODO, LIST_EDIT_TODO } from './types';
+import { LIST_ADD_TODO, LIST_EDIT_TODO, LIST_REORDER_TODO } from './types';
 
 export const addTodo = laneId => (
    dispatch => {
@@ -20,5 +20,13 @@ export const editTodo = (laneId, cardId, value) => (
       value,
     });
   }
-)
+);
+
+export const reorderTodo = newLanes => (
+  dispatch => {
+    dispatch({
+      type: LIST_REORDER_TODO,
+    });
+  }
+);
 

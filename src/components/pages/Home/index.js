@@ -10,7 +10,7 @@ import NewItem from 'components/atoms/NewItem';
 import TitleInput from 'components/atoms/TitleInput';
 import Title from 'components/atoms/Title';
 import TextInput from 'components/atoms/TextInput';
-import { addTodo, editTodo } from 'duck/actions/todos';
+import { addTodo, editTodo, reorderTodo } from 'duck/actions/todos';
 import { addLane, editLane } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
@@ -29,11 +29,12 @@ const CardComponent = ({ card, bindEditTodo, lane, index }) => {
   }
   return (
     <Draggable draggableId={card.id} index={index}>
-      {provided => (
+      {(provided, snapshot) => (
         <Card
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          isDragging={snapshot.isDragging}
         >
           {isEditing ? <form onSubmit={submitForm}><TextInput style={{ paddingBottom: 2 }} autoFocus onBlur={e => preCheckEdit(e.target.value)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /></form> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
         </Card>
@@ -46,15 +47,15 @@ const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
   const cardItems = Object.keys(lane.cards);
   return (
     <CardWrap>
+      <NewItem onClick={() => bindAddTodo(lane.id)}>
+        <Caption color='text' size='xs'>New</Caption>
+      </NewItem>
       {cardItems.map((k, index) => {
         const card = lane.cards[k];
         return (
           <CardComponent card={card} index={index} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
         );
       })}
-      <NewItem onClick={() => bindAddTodo(lane.id)}>
-        <Caption color='text' size='xs'>New</Caption>
-      </NewItem>
     </CardWrap>
   );
 }
@@ -71,10 +72,34 @@ const TitleComponent = ({ lane, bindEditLane }) => {
 };
 
 const Home  = props => {
-  const { board, bindAddTodo, bindAddLane, bindEditTodo, bindEditLane } = props;
+  const { board, bindAddTodo, bindAddLane, bindEditTodo, bindEditLane, bindReorderTodo } = props;
   const onDragEnd = result => {
-    console.log('end');
-    console.log(result);
+    const { destination, source, draggableId } = result;
+    if (!destination) {
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const lane = board.lanes[source.droppableId];
+    console.log(lane);
+    console.log(draggableId);
+    const newCardIds = Array.from(lane.cards);
+
+    newCardIds.splice(source.index, 1);
+    newCardIds.splice(destination.index, 0, draggableId);
+
+    const newLanes = {
+      ...lane,
+      cards: newCardIds,
+    };
+
+    bindReorderTodo(newLanes);
+
   };
   const boardLanes = Object.keys(board.lanes);
   if (!boardLanes.length) {
@@ -117,5 +142,6 @@ const mapDispatchToProps = {
   bindEditTodo: editTodo,
   bindAddLane: addLane,
   bindEditLane: editLane,
+  bindReorderTodo: reorderTodo,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
