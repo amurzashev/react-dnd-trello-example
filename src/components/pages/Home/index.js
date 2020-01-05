@@ -44,14 +44,13 @@ const CardComponent = ({ card, bindEditTodo, lane, index }) => {
 };
 
 const CardWrapComponent = ({ lane, bindAddTodo, bindEditTodo }) => {
-  const cardItems = Object.keys(lane.cards);
+  console.log(lane)
   return (
     <CardWrap>
       <NewItem onClick={() => bindAddTodo(lane.id)}>
         <Caption color='text' size='xs'>New</Caption>
       </NewItem>
-      {cardItems.map((k, index) => {
-        const card = lane.cards[k];
+      {lane.cards.map((card, index) => {
         return (
           <CardComponent card={card} index={index} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
         );
@@ -101,12 +100,10 @@ const Home  = props => {
     bindReorderTodo(newLanes);
 
   };
-  const boardLanes = Object.keys(board.lanes);
-  if (!boardLanes.length) {
+  if (!board.lanes.length) {
     return null;
   }
-  const lanes = boardLanes.map(k => {
-    const lane = board.lanes[k];
+  const lanes = board.lanes.map(lane => {
     return (
       <Droppable droppableId={lane.id} key={lane.id}>
         {(provided) => (

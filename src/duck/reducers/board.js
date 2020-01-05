@@ -2,29 +2,29 @@ import { LIST_ADD_TODO, BOARD_ADD_LANE, LIST_EDIT_TODO, BOARD_EDIT_LANE } from '
 import { generateRandomBG } from '../../helpers/configs';
 
 const initialState = {
-  lanes: {
-    lane1: {
+  lanes: [
+    {
       id: 'lane1',
       title: 'Untitled Group',
       bg: generateRandomBG(),
-      cards: {}
+      cards: [],
     },
-  }
+  ]
 };
 
 export default (state = initialState, action) => {
   switch(action.type) {
     case BOARD_ADD_LANE:
       return {
-        lanes: {
+        lanes: [
           ...state.lanes,
-          [action.id]: {
+          {
             id: action.id,
             title: 'Untitled Group',
             bg: generateRandomBG(),
-            cards: {},
+            cards: [],
           }
-        }
+        ]
       };
     case BOARD_EDIT_LANE:
       return {
@@ -58,13 +58,13 @@ export default (state = initialState, action) => {
           ...state.lanes,
           [action.id]: {
             ...state.lanes[action.id],
-            cards: {
+            cards: [
               ...state.lanes[action.id].cards,
-              [action.todoId]: {
+              {
                 id: action.todoId,
                 value: action.value,
               }
-            }
+            ]
           }
         }
       }
