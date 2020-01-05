@@ -10,7 +10,7 @@ import NewItem from 'components/atoms/NewItem';
 import TitleInput from 'components/atoms/TitleInput';
 import Title from 'components/atoms/Title';
 import TextInput from 'components/atoms/TextInput';
-import { addTodo, editTodo, reorderTodo } from 'duck/actions/todos';
+import { addCard } from 'duck/actions/cards';
 import { addLane, editLane } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
@@ -43,13 +43,14 @@ const CardComponent = ({ laneIndex, cardIndex, card, bindEditTodo, lane }) => {
   )
 };
 
-const CardWrapComponent = ({ lane, laneIndex, bindAddTodo, bindEditTodo }) => {
+const CardWrapComponent = ({ cards, lane, laneIndex, bindAddCard, bindEditTodo }) => {
   return (
     <CardWrap>
-      <NewItem onClick={() => bindAddTodo(laneIndex)}>
+      <NewItem onClick={() => bindAddCard(lane.id)}>
         <Caption color='text' size='xs'>New</Caption>
       </NewItem>
-      {lane.cards.map((card, cardIndex) => {
+      {lane.cards.map((k, cardIndex) => {
+        const card = cards[k];
         return (
           <CardComponent card={card} laneIndex={laneIndex} cardIndex={cardIndex} key={card.id} bindEditTodo={bindEditTodo} lane={lane} />
         );
@@ -70,7 +71,7 @@ const TitleComponent = ({ lane, bindEditLane }) => {
 };
 
 const Home  = props => {
-  const { lanes, cards, bindAddTodo, bindAddLane, bindEditTodo, bindEditLane, bindReorderTodo } = props;
+  const { lanes, cards, bindAddCard, bindAddLane, bindEditLane } = props;
   const onDragEnd = result => {
     console.log(result);
     const { destination, source, draggableId } = result;
@@ -106,7 +107,6 @@ const Home  = props => {
   }
   const renderLanes = lanesArr.map((k, index) => {
     const lane = lanes[k];
-    console.log(lane);
     return (
       <Droppable droppableId={lane.id} key={lane.id}>
         {(provided) => (
@@ -115,7 +115,7 @@ const Home  = props => {
             {...provided.droppableProps}
           >
             <TitleComponent lane={lane} bindEditLane={bindEditLane} />
-            {/* <CardWrapComponent laneIndex={index} lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} /> */}
+            <CardWrapComponent cards={cards} laneIndex={index} lane={lane} bindAddCard={bindAddCard} />
             {provided.placeholder}
           </Lane>
         )}
@@ -138,10 +138,8 @@ const Home  = props => {
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = {
-  bindAddTodo: addTodo,
-  bindEditTodo: editTodo,
+  bindAddCard: addCard,
   bindAddLane: addLane,
   bindEditLane: editLane,
-  bindReorderTodo: reorderTodo,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

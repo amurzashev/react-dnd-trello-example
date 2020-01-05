@@ -1,12 +1,18 @@
+import { LIST_ADD_CARD } from '../actions/types';
+
 const initialState = {
-  card1: {
-    id: 'card1',
-    value: '',
-  },
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LIST_ADD_CARD:
+      return {
+        ...state,
+        [action.id]: {
+          id: action.id,
+          value: '',
+        },
+      }
     default:
       return state;
   }

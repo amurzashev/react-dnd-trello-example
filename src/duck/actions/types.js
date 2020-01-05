@@ -1,6 +1,8 @@
-export const LIST_ADD_TODO = 'LIST_ADD_TODO';
-export const LIST_EDIT_TODO = 'LIST_EDIT_TODO';
-export const LIST_REORDER_TODO = 'LIST_REORDER_TODO';
+export const LIST_ADD_CARD = 'LIST_ADD_CARD';
+export const LIST_EDIT_CARD = 'LIST_EDIT_CARD';
+export const LIST_REORDER_CARD = 'LIST_REORDER_CARD';
+
+export const LANE_ADD_CARD = 'LANE_ADD_CARD';
 
 export const BOARD_ADD_LANE = 'BOARD_ADD_LANE';
 export const BOARD_EDIT_LANE = 'BOARD_EDIT_LANE';
