@@ -66,12 +66,13 @@ const TitleComponent = ({ lane, bindEditLane }) => {
     }
     setIsEditing(!isEditing);
   };
-  return isEditing ? <div><TitleInput defaultValue={lane.title} autoFocus onBlur={e => preCheckEdit(e.target.value)} /></div> : <Title onClick={() => setIsEditing(!isEditing)} title={lane.title} bg={lane.bg} />;
+  return isEditing ? <div><TitleInput defaultValue={lane.title} autoFocus onBlur={e => preCheckEdit(e.target.value)} /></div> : <Title onClick={() => setIsEditing(!isEditing)} title={lane.title || 'Untitled Group'} bg={lane.bg} />;
 };
 
 const Home  = props => {
-  const { board, bindAddTodo, bindAddLane, bindEditTodo, bindEditLane, bindReorderTodo } = props;
+  const { lanes, cards, bindAddTodo, bindAddLane, bindEditTodo, bindEditLane, bindReorderTodo } = props;
   const onDragEnd = result => {
+    console.log(result);
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -83,24 +84,29 @@ const Home  = props => {
       return;
     }
 
-    const lane = board.lanes[source.droppableId];
-    const newCardIds = Array.from(lane.cards);
+    // const lane = board.lanes[source.droppableId];
+    // const newCardIds = Array.from(lane.cards);
 
-    newCardIds.splice(source.index, 1);
-    newCardIds.splice(destination.index, 0, draggableId);
+    // newCardIds.splice(source.index, 1);
+    // newCardIds.splice(destination.index, 0, draggableId);
 
-    const newLanes = {
-      ...lane,
-      cards: newCardIds,
-    };
+    // const newLanes = {
+    //   ...lane,
+    //   cards: newCardIds,
+    // };
 
-    bindReorderTodo(newLanes);
+    // bindReorderTodo(newLanes);
+
 
   };
-  if (!board.lanes.length) {
+
+  const lanesArr = Object.keys(lanes);
+  if (!lanesArr.length) {
     return null;
   }
-  const lanes = board.lanes.map((lane, index) => {
+  const renderLanes = lanesArr.map((k, index) => {
+    const lane = lanes[k];
+    console.log(lane);
     return (
       <Droppable droppableId={lane.id} key={lane.id}>
         {(provided) => (
@@ -109,7 +115,7 @@ const Home  = props => {
             {...provided.droppableProps}
           >
             <TitleComponent lane={lane} bindEditLane={bindEditLane} />
-            <CardWrapComponent laneIndex={index} lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} />
+            {/* <CardWrapComponent laneIndex={index} lane={lane} bindAddTodo={bindAddTodo} bindEditTodo={bindEditTodo} /> */}
             {provided.placeholder}
           </Lane>
         )}
@@ -119,7 +125,7 @@ const Home  = props => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Board>
-        {lanes}
+        {renderLanes}
         <Lane>
           <NewItem onClick={bindAddLane}>
             <Caption color='text' size='xs'>Add a Group</Caption>
