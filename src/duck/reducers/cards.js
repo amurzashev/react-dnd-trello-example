@@ -1,7 +1,6 @@
 import { CARDS_ADD_CARD, CARDS_EDIT_CARD } from '../actions/types';
 
-const initialState = {
-};
+const initialState = {};
 
 export default (state = initialState, action) => {
   switch (action.type) {

@@ -12,11 +12,11 @@ export const addLane = () => (
 );
 
 
-export const editLane = (laneId, title) => (
+export const editLane = (id, title) => (
   dispatch => {
     dispatch({
       type: BOARD_EDIT_LANE,
-      id: laneId,
+      id,
       title,
     });
   }
