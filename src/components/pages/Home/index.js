@@ -71,7 +71,7 @@ const TitleComponent = ({ lane, bindEditLane }) => {
 };
 
 const Home  = props => {
-  const { lanes, cards, bindAddCard, bindEditCard, bindAddLane, bindEditLane, bindReorderCards } = props;
+  const { lanes, cards, bindAddCard, bindEditCard, bindAddLane, bindEditLane, bindReorderCards, order } = props;
   const onDragEnd = result => {
     console.log(result);
     const { destination, source, draggableId } = result;
@@ -85,26 +85,44 @@ const Home  = props => {
       return;
     }
 
-    const lane = lanes[source.droppableId];
-    const newCardIds = Array.from(lane.cards);
+    const start = lanes[source.droppableId];
+    const finish = lanes[destination.droppableId];
 
-    newCardIds.splice(source.index, 1);
-    newCardIds.splice(destination.index, 0, draggableId);
+    if (start === finish) {
+      const newCardIds = Array.from(start.cards);
 
-    const newLanes = {
-      ...lane,
-      cards: newCardIds,
+      newCardIds.splice(source.index, 1);
+      newCardIds.splice(destination.index, 0, draggableId);
+
+      const newLanes = {
+        ...start,
+        cards: newCardIds,
+      };
+
+      bindReorderCards(newLanes);
+      return;
+    }
+
+    const startCards = Array.from(start.cards);
+    startCards.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      cards: startCards,
     };
 
-    bindReorderCards(newLanes);
+    const finishCards = Array.from(finish.cards);
+    finishCards.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      cards: finishCards,
+    };
+
+    console.log(newStart);
+    console.log(newFinish);
   };
 
-  const lanesArr = Object.keys(lanes);
-  if (!lanesArr.length) {
-    return null;
-  }
-  const renderLanes = lanesArr.map((k, index) => {
-    const lane = lanes[k];
+  const renderLanes = order.columns.map((laneId, index) => {
+    const lane = lanes[laneId];
     return (
       <Droppable droppableId={lane.id} key={lane.id}>
         {(provided) => (

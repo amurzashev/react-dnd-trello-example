@@ -29,5 +29,13 @@ export const reorderCards = lane => (
       lane,
     });
   }
-)
+);
+
+export const reorderBetweenLanes = (start, finish) => (
+  dispatch => {
+    dispatch({
+
+    });
+  }
+);
 
