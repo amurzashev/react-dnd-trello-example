@@ -11,12 +11,12 @@ import TitleInput from 'components/atoms/TitleInput';
 import Title from 'components/atoms/Title';
 import TextInput from 'components/atoms/TextInput';
 import { addCard, editCard } from 'duck/actions/cards';
-import { addLane, editLane, reorderCards } from 'duck/actions/lanes';
+import { addLane, editLane, reorderCards, reorderBetweenLanes } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
 
 const CardComponent = ({ laneIndex, cardIndex, card, bindEditCard, lane }) => {
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const preCheckEdit = val => {
     if (val && val !== card.value && val.trim().length) {
       bindEditCard(card.id, val);
@@ -46,9 +46,6 @@ const CardComponent = ({ laneIndex, cardIndex, card, bindEditCard, lane }) => {
 const CardWrapComponent = ({ cards, lane, laneIndex, bindAddCard, bindEditCard }) => {
   return (
     <CardWrap>
-      <NewItem onClick={() => bindAddCard(lane.id)}>
-        <Caption color='text' size='xs'>New Card</Caption>
-      </NewItem>
       {lane.cards.map((k, cardIndex) => {
         const card = cards[k];
         return (
@@ -71,7 +68,7 @@ const TitleComponent = ({ lane, bindEditLane }) => {
 };
 
 const Home  = props => {
-  const { lanes, cards, bindAddCard, bindEditCard, bindAddLane, bindEditLane, bindReorderCards, order } = props;
+  const { lanes, cards, bindAddCard, bindReorderBetweenLanes, bindEditCard, bindAddLane, bindEditLane, bindReorderCards, order } = props;
   const onDragEnd = result => {
     console.log(result);
     const { destination, source, draggableId } = result;
@@ -117,25 +114,28 @@ const Home  = props => {
       cards: finishCards,
     };
 
-    console.log(newStart);
-    console.log(newFinish);
+    bindReorderBetweenLanes(newStart, newFinish);
   };
 
   const renderLanes = order.columns.map((laneId, index) => {
     const lane = lanes[laneId];
     return (
-      <Droppable droppableId={lane.id} key={lane.id}>
+      <Lane key={lane.id}>
+        <TitleComponent lane={lane} bindEditLane={bindEditLane} />
+        <NewItem onClick={() => bindAddCard(lane.id)} style={{ marginTop: 10 }}>
+          <Caption color='text' size='xs'>New Card</Caption>
+        </NewItem>
+      <Droppable droppableId={lane.id}>
         {(provided) => (
-          <Lane
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            <TitleComponent lane={lane} bindEditLane={bindEditLane} />
+            <div ref={provided.innerRef}
+            {...provided.droppableProps}>
             <CardWrapComponent cards={cards} laneIndex={index} lane={lane} bindAddCard={bindAddCard} bindEditCard={bindEditCard} />
             {provided.placeholder}
-          </Lane>
+            </div>
         )}
       </Droppable>
+      </Lane>
+
     );
   });
   return (
@@ -159,5 +159,6 @@ const mapDispatchToProps = {
   bindAddLane: addLane,
   bindEditLane: editLane,
   bindReorderCards: reorderCards,
+  bindReorderBetweenLanes: reorderBetweenLanes,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

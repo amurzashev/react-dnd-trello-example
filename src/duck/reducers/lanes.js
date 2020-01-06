@@ -1,4 +1,4 @@
-import { LANE_ADD_CARD, BOARD_ADD_LANE, BOARD_EDIT_LANE, LANE_REORDER_CARDS } from '../actions/types';
+import { LANE_ADD_CARD, BOARD_ADD_LANE, BOARD_EDIT_LANE, LANE_REORDER_CARDS, LANE_REORDER_CARDS_BETWEEN_LANES } from '../actions/types';
 import { generateRandomBG } from '../../helpers/configs';
 
 const initialState = {
@@ -47,6 +47,12 @@ export default (state = initialState, action) => {
         [action.lane.id]: {
           ...action.lane
         }
+      };
+    case LANE_REORDER_CARDS_BETWEEN_LANES:
+      return {
+        ...state,
+        [action.start.id]: action.start,
+        [action.finish.id]: action.finish,
       }
     default:
       return state;

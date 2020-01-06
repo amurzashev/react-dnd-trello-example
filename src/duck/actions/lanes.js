@@ -1,4 +1,4 @@
-import { BOARD_ADD_LANE, BOARD_EDIT_LANE, LANE_REORDER_CARDS, } from './types';
+import { BOARD_ADD_LANE, BOARD_EDIT_LANE, LANE_REORDER_CARDS, LANE_REORDER_CARDS_BETWEEN_LANES, } from './types';
 
 export const addLane = () => (
   (dispatch, getState) => {
@@ -34,7 +34,9 @@ export const reorderCards = lane => (
 export const reorderBetweenLanes = (start, finish) => (
   dispatch => {
     dispatch({
-
+      type: LANE_REORDER_CARDS_BETWEEN_LANES,
+      start,
+      finish,
     });
   }
 );
