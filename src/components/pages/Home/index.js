@@ -11,7 +11,7 @@ import TitleInput from 'components/atoms/TitleInput';
 import Title from 'components/atoms/Title';
 import TextInput from 'components/atoms/TextInput';
 import { addCard, editCard } from 'duck/actions/cards';
-import { addLane, editLane } from 'duck/actions/lanes';
+import { addLane, editLane, reorderCards } from 'duck/actions/lanes';
 
 // TODO: CLEAN UP
 
@@ -47,7 +47,7 @@ const CardWrapComponent = ({ cards, lane, laneIndex, bindAddCard, bindEditCard }
   return (
     <CardWrap>
       <NewItem onClick={() => bindAddCard(lane.id)}>
-        <Caption color='text' size='xs'>New</Caption>
+        <Caption color='text' size='xs'>New Card</Caption>
       </NewItem>
       {lane.cards.map((k, cardIndex) => {
         const card = cards[k];
@@ -71,7 +71,7 @@ const TitleComponent = ({ lane, bindEditLane }) => {
 };
 
 const Home  = props => {
-  const { lanes, cards, bindAddCard, bindEditCard, bindAddLane, bindEditLane } = props;
+  const { lanes, cards, bindAddCard, bindEditCard, bindAddLane, bindEditLane, bindReorderCards } = props;
   const onDragEnd = result => {
     console.log(result);
     const { destination, source, draggableId } = result;
@@ -85,20 +85,18 @@ const Home  = props => {
       return;
     }
 
-    // const lane = board.lanes[source.droppableId];
-    // const newCardIds = Array.from(lane.cards);
+    const lane = lanes[source.droppableId];
+    const newCardIds = Array.from(lane.cards);
 
-    // newCardIds.splice(source.index, 1);
-    // newCardIds.splice(destination.index, 0, draggableId);
+    newCardIds.splice(source.index, 1);
+    newCardIds.splice(destination.index, 0, draggableId);
 
-    // const newLanes = {
-    //   ...lane,
-    //   cards: newCardIds,
-    // };
+    const newLanes = {
+      ...lane,
+      cards: newCardIds,
+    };
 
-    // bindReorderTodo(newLanes);
-
-
+    bindReorderCards(newLanes);
   };
 
   const lanesArr = Object.keys(lanes);
@@ -142,5 +140,6 @@ const mapDispatchToProps = {
   bindEditCard: editCard,
   bindAddLane: addLane,
   bindEditLane: editLane,
+  bindReorderCards: reorderCards,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
