@@ -9,13 +9,13 @@ import { ThemeProvider } from 'emotion-theming';
 
 const store = configureStore(window.__PRELOADED_STATE__);
 hydrate(
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <ThemeProvider theme={theme('dark')}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </Provider>
-  </ThemeProvider>,
+    </ThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );
 
