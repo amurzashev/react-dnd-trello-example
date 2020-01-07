@@ -36,7 +36,7 @@ const CardComponent = ({ laneIndex, cardIndex, card, bindEditCard, lane }) => {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
         >
-          {isEditing ? <form onSubmit={submitForm}><TextInput style={{ paddingBottom: 2 }} autoFocus onBlur={e => preCheckEdit(e.target.value)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /></form> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
+          {isEditing ? <form onSubmit={submitForm}><TextInput autoFocus onBlur={e => preCheckEdit(e.target.value)} defaultValue={card.value} placeholder={card.value || 'Untitled'} /></form> : <Caption onClick={() => setIsEditing(!isEditing)} size='m' color='text'>{card.value || 'Untitled'}</Caption>}
         </Card>
       )}
     </Draggable>
