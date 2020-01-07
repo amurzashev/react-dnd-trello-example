@@ -21,13 +21,13 @@ server
     resetServerContext();
     const store = configureStore({});
     const markup = renderToString(
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
+      <Provider store={store}>
+        <ThemeProvider theme={theme('dark')}>
           <StaticRouter context={context} location={req.url}>
             <App />
           </StaticRouter>
-        </Provider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </Provider>
     );
 
     if (context.url) {

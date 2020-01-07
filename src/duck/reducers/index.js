@@ -1,5 +1,9 @@
-import board from './board';
+import cards from './cards';
+import lanes from './lanes';
+import order from './order';
 
 export default {
-  board,
+  lanes,
+  cards,
+  order,
 };
