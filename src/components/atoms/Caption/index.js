@@ -21,6 +21,7 @@ const getSize = props => {
 export default styled('p', {
   shouldForwardProp: prop => isPropValid(prop) && prop !== 'color',
 })`
+  font-family: 'Roboto', sans-serif;
   font-size: ${props => props.size ? getSize(props) : '1.1rem'};
   color: ${props => props.color ? props.theme.colors[props.color] : 'initial'};
 `;

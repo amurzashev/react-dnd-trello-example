@@ -10,4 +10,5 @@ export default styled.input`
   width: 100%;
   font-size: 1rem;
   outline: none;
+  font-family: 'Roboto', sans-serif;
 `;

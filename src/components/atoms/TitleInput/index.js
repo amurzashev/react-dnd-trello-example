@@ -8,5 +8,6 @@ export default styled.input`
   background: ${props => props.theme.colors.cardBg};
   color: ${props => props.theme.colors.text};
   outline: none;
+  font-family: 'Roboto', sans-serif;
   border: none;
 `;

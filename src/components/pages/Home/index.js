@@ -70,7 +70,6 @@ const TitleComponent = ({ lane, bindEditLane }) => {
 const Home  = props => {
   const { lanes, cards, bindAddCard, bindReorderBetweenLanes, bindEditCard, bindAddLane, bindEditLane, bindReorderCards, order } = props;
   const onDragEnd = result => {
-    console.log(result);
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
